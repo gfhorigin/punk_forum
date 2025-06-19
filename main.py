@@ -1,0 +1,51 @@
+from fastapi import FastAPI, Response, Request
+import hashlib
+import models
+import DB_Utils
+import responses
+import token_manager
+
+tm = token_manager.TokenManager()
+
+app = FastAPI()
+
+db = DB_Utils.DB()
+db.add_user('d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892')
+db.add_name('admin')
+
+
+@app.post("/login")
+def login(info: models.UserModel, response: Response):
+    print(
+        "==========================================================================================================================================================================")
+
+    email = info.email
+    password = info.password
+    if hashlib.sha256((email + password).encode()).hexdigest() in db.get_users():
+        tm.set_token(response)
+
+        return responses.success_response()
+
+    return responses.invalid_credentials()
+
+
+@app.post("/registration")
+def registration(email: str, password: str, response: Response):
+    print(
+        "tregggggggg222============================================================================================================")
+
+    if email in db.get_names():
+        return responses.email_exists()
+    db.add_name(email)
+    db.add_user(hashlib.sha256((email + password).encode()).hexdigest())
+    tm.set_token(response)
+
+    return responses.success_response()
+
+
+@app.get("/check-auth")
+def check_auth(request: Request):
+    token = request.cookies.get(tm.get_cookie_name())
+    print(token, "toooooooken")
+    return {'message': tm.get_security().decode_token(token),
+            'info': db.user_info(name=tm.get_security().decode_token(token))}

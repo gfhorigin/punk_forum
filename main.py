@@ -16,8 +16,6 @@ db.add_name('admin')
 
 @app.post("/login")
 def login(info: models.UserModel, response: Response):
-    print(
-        "==========================================================================================================================================================================")
 
     email = info.email
     password = info.password
@@ -30,10 +28,9 @@ def login(info: models.UserModel, response: Response):
 
 
 @app.post("/registration")
-def registration(email: str, password: str, response: Response):
-    print(
-        "tregggggggg222============================================================================================================")
-
+def registration(info: models.UserModel, response: Response):
+    email = info.email
+    password = info.password
     if email in db.get_names():
         return responses.email_exists()
     db.add_name(email)

@@ -30,8 +30,8 @@ def error_response(
 
 # Конкретные ошибки
 def invalid_credentials():
-    return error_response(401, "invalid_credentials", "Неверный логин или пароль")
+    return error_response(401, "invalid_credentials", "wrong password or login")
 
 
 def email_exists():
-    return error_response(400, "invalid_email", "Этот пользователь уже есть")
+    return error_response(400, "invalid_email", "this user is allowed now")

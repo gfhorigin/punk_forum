@@ -16,6 +16,9 @@ class TokenManager:
 
         self.security = AuthX(config=self.config)
 
+    def gety_token(self,info=None):
+        return  self.security.create_access_token(uid='my_id', data=info)
+
     def set_token(self, response, info=None):
         token = self.security.create_access_token(uid='my_id', data=info)
 
@@ -24,12 +27,14 @@ class TokenManager:
             value=token,
             httponly=True,
             max_age=3600,
-            path='/',  # КРИТИЧЕСКИ ВАЖНО
-            samesite='Lax'  # КРИТИЧЕСКИ ВАЖНО
+            path="/",
+            secure =False
         )
+
 
     def get_security(self):
         return self.security
 
     def get_cookie_name(self):
-        return  self.config.JWT_ACCESS_COOKIE_NAME
+        return self.config.JWT_ACCESS_COOKIE_NAME
+

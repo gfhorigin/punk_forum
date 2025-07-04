@@ -28,9 +28,9 @@ class TokenManager:
             httponly=True,
             max_age=3600,
             path="/",
-            secure =False
+            samesite="lax",
+            secure=False
         )
-
 
     def get_security(self):
         return self.security

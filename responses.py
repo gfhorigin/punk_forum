@@ -29,6 +29,10 @@ def error_response(
 
 
 # Конкретные ошибки
+def invalid_auth():
+    return error_response(403, "cookie not allowed", "user not authentication")
+
+
 def invalid_credentials():
     return error_response(401, "invalid_credentials", "wrong password or login")
 

@@ -36,3 +36,6 @@ deactivate
 Всегда активируйте окружение перед работой с проектом.
 
 (@Deepseek)
+
+Для запуска fastapi:
+uvicorn main:app --reload

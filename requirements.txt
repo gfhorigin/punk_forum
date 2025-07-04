@@ -1,8 +1,5 @@
 fastapi
 authx
-<<<<<<< HEAD
 uvicorn
-=======
 pytest
-uvicorn
->>>>>>> unstable
+

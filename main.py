@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Response, Request, Cookie
+from fastapi.middleware.cors import CORSMiddleware
 import hashlib
 import models
 import db_utils
@@ -13,6 +14,10 @@ db = db_utils.DB()
 db.add_user('d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892')
 db.add_name('admin')
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:5173']
+)
 
 @app.post("/login")
 def login(info: models.UserModel, response: Response):

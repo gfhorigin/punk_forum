@@ -65,27 +65,3 @@ def test_check_auth_failed():
     client = TestClient(app)
     auth = client.get("/check-auth")
     assert auth.status_code == 403
-
-#---------------------в будущих версиря будет удалено
-# @pytest.mark.asyncio
-# async def test_check_auth():
-#     client = TestClient(app)
-#     login_resp = client.post("/login", json={"email": "admin", "password": "admin"})
-#     assert login_resp.status_code == 200
-#    # print(login_resp.json()[1]["body"])
-#
-#     async with AsyncClient(
-#             transport=ASGITransport(app=app),
-#             base_url="http://test",
-#             cookies=login_resp.cookies,
-#             follow_redirects=True
-#     ) as ac:
-#        # print(ac.cookies, "yes")
-#         # Проверка авторизации с куками
-#         print(ac.cookies, "worked")
-#         check_resp = await ac.get(
-#             "/check-auth",
-#             cookies=ac.cookies  # Критически важно!
-#         )
-#         assert check_resp.status_code == 200
-#         print(check_resp.json())

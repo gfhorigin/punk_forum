@@ -10,9 +10,11 @@ tm = token_manager.TokenManager()
 
 app = FastAPI()
 
+# временно ------
 db = db_utils.DB()
 db.add_user('d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892')
 db.add_name('admin')
+# ---------------
 
 app.add_middleware(
     CORSMiddleware,
@@ -21,6 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.post("/login")
 def login(info: models.UserModel, response: Response):

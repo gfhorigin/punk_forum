@@ -1,7 +1,5 @@
-import pytest
-from httpx import AsyncClient, ASGITransport
 from fastapi.testclient import TestClient
-from app.main import app, tm
+from main import app, tm
 
 
 def test_login():

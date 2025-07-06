@@ -1,4 +1,4 @@
-import mysql.connector
+#import mysql.connector
 import os
 from dotenv import load_dotenv
 #punk_forum_db, username root, 127.0.0.1, port 3306
@@ -6,12 +6,12 @@ class DB:
     def __init__(self):
         load_dotenv()
 
-        db = mysql.connector.connect(
-            host="mysql",
-            user="root",
-            passwd=os.getenv('DB_PASSWD'),
-            database="punk_forum_db"
-        )
+        # db = mysql.connector.connect(
+        #     host="mysql",
+        #     user="root",
+        #     passwd=os.getenv('DB_PASSWD'),
+        #     database="punk_forum_db"
+        # )
         self.users = []
         self.users_name = []
 

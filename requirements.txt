@@ -1,4 +1,8 @@
-fastapi
-authx
-pytest
+fastapi~=0.115.13
+authx~=1.4.3
+pytest~=8.4.1
 uvicorn
+pydantic~=2.11.7
+dotenv~=0.9.9
+python-dotenv~=1.1.0
+httpx~=0.28.1

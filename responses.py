@@ -1,7 +1,8 @@
 from fastapi.responses import JSONResponse
+import config
 
 
-def success_response(message: str = "successfully", data: dict = None):
+def success_response(message: str = config.SUCCESS_BASE, data: dict = None):
     return JSONResponse(
         status_code=200,
         content={
@@ -30,12 +31,12 @@ def error_response(
 
 # Конкретные ошибки
 def invalid_auth():
-    return error_response(403, "cookie not allowed", "user not authentication")
+    return error_response(403, config.INVALID_AUTH, "user not authentication")
 
 
 def invalid_credentials():
-    return error_response(401, "invalid_credentials", "wrong password or login")
+    return error_response(401, config.INVALID_CREDENTIALS, "wrong password or login")
 
 
 def email_exists():
-    return error_response(400, "invalid_email", "this user is allowed now")
+    return error_response(400, config.EMAIL_EXISTS, "this user is allowed now")

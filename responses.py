@@ -31,7 +31,7 @@ def error_response(
 
 # Конкретные ошибки
 def invalid_auth():
-    return error_response(403, config.INVALID_AUTH, "user not authentication")
+    return error_response(403, config.INVALID_AUTH, config.M_INVALID_AUTH)
 
 
 def invalid_credentials():

@@ -7,8 +7,8 @@ class DB:
     def __init__(self):
 
         db = mysql.connector.connect(
-            host="mysql",
-            user="root",
+            host=config.DB_HOST,
+            user=config.DB_USER,
             passwd=config.DB_PASSWD,
             database=config.DB_NAME
         )

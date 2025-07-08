@@ -30,7 +30,7 @@ def login(info: models.UserModel, response: Response):
     email = info.email
     password = info.password
     if hashlib.sha256((email + password).encode()).hexdigest() in db.get_users():
-        tm.set_token(response=response, info={"message": "good"})
+        tm.set_token(response=response, uid="test", info={"message": "good"})
         return response, responses.success_response()
 
     return responses.invalid_credentials()
@@ -45,7 +45,7 @@ def registration(info: models.UserModel, response: Response):
         return responses.email_exists()
     db.add_name(email)
     db.add_user(hashlib.sha256((email + password).encode()).hexdigest())
-    tm.set_token(response=response, info={"message": "good"})
+    tm.set_token(response=response, uid="test", info={"message": "good"})
 
     return response, responses.success_response()
 

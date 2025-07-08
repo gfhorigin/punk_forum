@@ -12,7 +12,7 @@ class TokenManager:
 
         self.security = AuthX(config=self.config)
 
-    def gety_token(self, uid: str, info=None):
+    def get_token(self, uid: str, info=None):
         return self.security.create_access_token(uid=uid, data=info)
 
     def set_token(self, response,uid: str, info=None):

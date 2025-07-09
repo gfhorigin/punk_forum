@@ -10,7 +10,8 @@ class DB:
             host=config.DB_HOST,
             user=config.DB_USER,
             passwd=config.DB_PASSWD,
-            database=config.DB_NAME
+            database=config.DB_NAME,
+            port=config.DB_PORT
         )
         self.users = []
         self.users_name = []

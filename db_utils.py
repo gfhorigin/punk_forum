@@ -1,32 +1,48 @@
 import mysql.connector
 import config
-#punk_forum_db, username root, 127.0.0.1, port 3306
+import datetime
+import re
 
 
 class DB:
     def __init__(self):
-
-        db = mysql.connector.connect(
+        self.db = mysql.connector.connect(
             host=config.DB_HOST,
             user=config.DB_USER,
             passwd=config.DB_PASSWD,
             database=config.DB_NAME,
             port=config.DB_PORT
         )
-        self.users = []
-        self.users_name = []
+        self.cursor = self.db.cursor(buffered=True)
 
-    def add_user(self, hash):
-        self.users.append(hash)
+    def add_user(self, login_hash, email, nickname, unique_name):
+        current_time = datetime.datetime.now()
+
+        self.cursor.execute(f'INSERT INTO {config.TABLE_USERS} '
+                            f'(unique_name, nickname,email, login_hash, last_login, created_at, updated_at )'
+                            f'VALUES(%s, %s, %s, %s, %s, %s)',
+                            (unique_name, nickname, email, login_hash, current_time, current_time, current_time))
+
+        self.db.commit()
 
     def get_users(self):
         return self.users
 
-    def add_name(self, name):
-        self.users_name.append(name)
+    def get_emails(self):  # ------------возможно в будущем удалить
+        return self.cursor.execute(f'SELECT email FROM {config.TABLE_USERS}').fetchall()
 
-    def get_names(self):
-        return self.users_name
-
-    def user_info(self,name):
+    def user_info(self, name):
         return {"userinfo": 'info from database'}
+
+    def get_unique(self):  # ------------возможно в будущем удалить
+        return self.cursor.execute(f'SELECT unique_name FROM {config.TABLE_USERS}').fetchall()
+
+    def email_exists(self, email):
+        if self.cursor.execute(f'SELECT email FROM {config.TABLE_USERS} WHERE email = %s', (email,)).fetchone():
+            return True
+        return False
+
+    def unique_exists(self, unique):
+        if self.cursor.execute(f'SELECT unique_name FROM {config.TABLE_USERS} WHERE unique_name = %s', (unique,)).fetchone():
+            return True
+        return False

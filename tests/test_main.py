@@ -1,7 +1,5 @@
-import pytest
-from httpx import AsyncClient, ASGITransport
 from fastapi.testclient import TestClient
-from main import app, tm
+from main import app, tm, db
 
 
 def test_login():
@@ -20,13 +18,20 @@ def test_login_wrong():
 
 def test_registration():
     client = TestClient(app)
-    response = client.post("/registration", json={"email": "new_user", "password": "admin"})
+    response = client.post("/registration", json={"nickname": "gfh",
+                                                  "unique_name": "gfh",
+                                                  "email": "new_user",
+                                                  "password": "admin"})
     assert response.status_code == 200
+    db.delete_user("new_user")
 
 
 def test_registration_wrong():
     client = TestClient(app)
-    response = client.post("/registration", json={"email": "admin", "password": "admin"})
+    response = client.post("/registration", json={"nickname": "gfh",
+                                                  "unique_name": "gfh",
+                                                  "email": "admin",
+                                                  "password": "admin"})
     assert response.status_code == 400
 
 
@@ -44,13 +49,21 @@ def test_login_cookie_failed():
 
 def test_registration_cookie():
     client = TestClient(app)
-    reg_resp = client.post("/registration", json={"email": "odmin", "password": "admin"})
+    reg_resp = client.post("/registration",  json={"nickname": "gfh",
+                                                  "unique_name": "gfh",
+                                                  "email": "new_user",
+                                                  "password": "admin"})
+
     assert reg_resp.cookies.get(tm.get_cookie_name()) is not None
+    db.delete_user("new_user")
 
 
 def test_registration_cookie_failed():
     client = TestClient(app)
-    reg_resp = client.post("/registration", json={"email": "admin", "password": "admin"})
+    reg_resp = client.post("/registration",  json={"nickname": "gfh",
+                                                  "unique_name": "gfh",
+                                                  "email": "admin",
+                                                  "password": "admin"})
     assert reg_resp.cookies.get(tm.get_cookie_name()) is None
 
 
@@ -58,10 +71,12 @@ def test_check_auth():
     client = TestClient(app)
     client.post("/login", json={"email": "admin", "password": "admin"})
     auth = client.get("/check-auth")
+    print(auth.json())
     assert auth.status_code == 200
 
 
 def test_check_auth_failed():
     client = TestClient(app)
     auth = client.get("/check-auth")
+
     assert auth.status_code == 403

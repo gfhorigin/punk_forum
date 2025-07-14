@@ -46,3 +46,8 @@ class DB:
         if self.cursor.execute(f'SELECT unique_name FROM {config.TABLE_USERS} WHERE unique_name = %s', (unique,)).fetchone():
             return True
         return False
+
+    def hash_check(self, login_hash):
+        if self.cursor.execute(f'SELECT login_hash FROM {config.TABLE_USERS} WHERE login_hash = %s', (login_hash,)).fetchone():
+            return True
+        return False

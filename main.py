@@ -30,7 +30,8 @@ app.add_middleware(
 def login(info: models.UserModel, response: Response):
     email = info.email
     password = info.password
-    if hashlib.sha256((email + password).encode()).hexdigest() in db.get_users():
+    login_hash = hashlib.sha256((email + password).encode()).hexdigest()
+    if db.hash_check(login_hash=login_hash):
         tm.set_token(response=response, uid="test", info={"message": "good"})
         return response, responses.success_response()
 

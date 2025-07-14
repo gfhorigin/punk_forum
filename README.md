@@ -23,7 +23,7 @@ bash source venv/bin/activate (После активации в начале с�
 (@Deepseek)
 
 
-####Для запуска fastapi: uvicorn main:app --reload
+#### Для запуска fastapi: uvicorn main:app --reload
 
-####Чтобы поднять бд и phpmyadmin: docker-compose up -d
+#### Чтобы поднять бд и phpmyadmin: docker-compose up -d
 

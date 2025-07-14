@@ -10,10 +10,11 @@ tm = token_manager.TokenManager()
 
 app = FastAPI()
 
-# временно ------
 db = db_utils.DB()
-db.add_user('d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892')
-db.add_name('admin')
+# временно ------
+#
+# db.add_user('d82494f05d6917ba02f7aaa29689ccb444bb73f20380876cb05d1f37537b7892')
+# db.add_name('admin')
 # ---------------
 
 app.add_middleware(
@@ -37,14 +38,23 @@ def login(info: models.UserModel, response: Response):
 
 
 @app.post("/registration")
-def registration(info: models.UserModel, response: Response):
+def registration(info: models.UserRegistrationModel, response: Response):
     email = info.email
     password = info.password
 
-    if email in db.get_names():
+    if db.email_exists(email):
         return responses.email_exists()
-    db.add_name(email)
-    db.add_user(hashlib.sha256((email + password).encode()).hexdigest())
+    if db.unique_exists(info.unique_name):
+        return responses.unique_exists()
+
+    login_hash = hashlib.sha256((email + password).encode()).hexdigest()
+
+    db.add_user(
+        login_hash=login_hash,
+        email=email,
+        nickname=info.nickname,
+        unique_name=info.unique_name
+    )
     tm.set_token(response=response, uid="test", info={"message": "good"})
 
     return response, responses.success_response()

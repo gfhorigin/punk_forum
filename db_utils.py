@@ -61,7 +61,13 @@ class DB:
     def get_user_auth_info_by_email(self, email):
         self.cursor.execute(f'SELECT unique_name, nickname, email, id  FROM {config.TABLE_USERS} WHERE email = %s',
                             (email,))
-        return self.cursor.fetchone()
+        data = self.cursor.fetchone()
+        return {
+            "unique_name": data[0],
+            "nickname": data[1],
+            "email": data[2],
+            "id": data[3]
+        }
 
     def delete_user(self, email): # --------------только для тестов
         self.cursor.execute(f'DELETE FROM {config.TABLE_USERS} WHERE email = %s', (email,))

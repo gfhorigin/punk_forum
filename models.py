@@ -6,7 +6,7 @@ class UserModel(BaseModel):
     password: str
 
 
-class UserRegistrationModel:
+class UserRegistrationModel(BaseModel):
     nickname: str
     unique_name: str
     email: str

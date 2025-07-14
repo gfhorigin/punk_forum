@@ -35,8 +35,12 @@ def invalid_auth():
 
 
 def invalid_credentials():
-    return error_response(401, config.INVALID_CREDENTIALS, "wrong password or login")
+    return error_response(401, config.INVALID_CREDENTIALS, config.M_INVALID_CREDENTIALS)
 
 
 def email_exists():
-    return error_response(400, config.EMAIL_EXISTS, "this user is allowed now")
+    return error_response(400, config.EMAIL_EXISTS, config.M_EMAIL_EXISTS)
+
+
+def unique_exists():
+    return error_response(400, config.EMAIL_EXISTS, config.M_EMAIL_UNIQUE)

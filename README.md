@@ -22,4 +22,9 @@ bash source venv/bin/activate (После активации в начале с�
 
 (@Deepseek)
 
+<<<<<<< HEAD
+Для запуска fastapi:
+uvicorn main:app --reload
+=======
 Для запуска fastapi: uvicorn main:app --reload
+>>>>>>> unstable

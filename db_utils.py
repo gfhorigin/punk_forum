@@ -32,9 +32,6 @@ class DB:
         self.cursor.execute(f'SELECT email FROM {config.TABLE_USERS}')
         return self.cursor.fetchall()
 
-    def user_info(self, name):
-        return {"userinfo": 'info from database'}
-
     def get_unique(self):  # ------------возможно в будущем удалить
         self.cursor.execute(f'SELECT unique_name FROM {config.TABLE_USERS}')
         return self.cursor.fetchall()

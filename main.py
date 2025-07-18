@@ -6,6 +6,7 @@ import models
 import db_utils
 import responses
 import token_manager
+import config
 
 tm = token_manager.TokenManager()
 
@@ -72,6 +73,10 @@ def registration(info: models.UserRegistrationModel, response: Response):
     tm.set_token(response=response, uid=email)
 
     return response, responses.success_response()
+
+@app.get("/dock")
+def dock():
+    return config.documentation
 
 
 @app.get("/check-auth")

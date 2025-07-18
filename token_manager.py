@@ -24,7 +24,7 @@ class TokenManager:
             httponly=True,
             max_age=3600,
             path="/",
-            samesite="lax",
+            samesite="none",
             secure=False
         )
 

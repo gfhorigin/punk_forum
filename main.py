@@ -1,6 +1,6 @@
-from authx import TokenPayload
 from fastapi import FastAPI, Response, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from authx_extra.oauth2 import MiddlewareOauth2
 import hashlib
 import models
 import db_utils
@@ -22,8 +22,20 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=['http://localhost:5173'],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
+)
+
+app.add_middleware(
+    MiddlewareOauth2,
+    providers={
+        'google': {
+            'keys': 'https://www.googleapis.com/oauth2/v3/certs',
+            'issuer': 'https://accounts.google.com',
+            'audience': '852159111111-xxxxxx.apps.googleusercontent.com',
+        }
+    },
+    public_paths={'/'},
 )
 
 
@@ -63,7 +75,7 @@ def registration(info: models.UserRegistrationModel, response: Response):
 
 
 @app.get("/check-auth")
-def check_auth(request: Request):#payload: TokenPayload = Depends(tm.get_security().access_token_required)):
+def check_auth(request: Request):  # payload: TokenPayload = Depends(tm.get_security().access_token_required)):
     token = request.cookies.get(tm.get_cookie_name())
     if token is None:
         return responses.invalid_auth()

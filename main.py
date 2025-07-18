@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Response, Request, Depends
+from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
-from authx_extra.oauth2 import MiddlewareOauth2
+#from authx_extra.oauth2 import MiddlewareOauth2
 import hashlib
 import models
 import db_utils
@@ -27,17 +27,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.add_middleware(
-    MiddlewareOauth2,
-    providers={
-        'google': {
-            'keys': 'https://www.googleapis.com/oauth2/v3/certs',
-            'issuer': 'https://accounts.google.com',
-            'audience': '852159111111-xxxxxx.apps.googleusercontent.com',
-        }
-    },
-    public_paths={'/'},
-)
+
 
 
 @app.post("/login")
@@ -47,7 +37,9 @@ def login(info: models.UserModel, response: Response):
     login_hash = hashlib.sha256((email + password).encode()).hexdigest()
     if db.hash_check(login_hash=login_hash):
         tm.set_token(response=response, uid=email)
-        return response, responses.success_response()
+        return response, responses.success_response(
+            {f"/user/{db.get_unique_by_email(email)}"}
+        )
 
     return responses.invalid_credentials()
 
@@ -72,7 +64,9 @@ def registration(info: models.UserRegistrationModel, response: Response):
     )
     tm.set_token(response=response, uid=email)
 
-    return response, responses.success_response()
+    return response, responses.success_response(
+            {f"/user/{db.get_unique_by_email(email)}"}
+        )
 
 @app.get("/dock")
 def dock():

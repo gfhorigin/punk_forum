@@ -6,6 +6,7 @@ def test_login():
     client = TestClient(app)
     response = client.post("/login", json={"email": "admin", "password": "admin"})
     assert response.status_code == 200
+    print(response.json())
 
 
 def test_login_wrong():

@@ -66,6 +66,9 @@ class DB:
             "id": data[3]
         }
 
+    def get_unique_by_email(self, email):
+        self.cursor.execute(f'SELECT unique_name FROM {config.TABLE_USERS} WHERE email = %s', (email,))
+
     def delete_user(self, email): # --------------только для тестов
         self.cursor.execute(f'DELETE FROM {config.TABLE_USERS} WHERE email = %s', (email,))
         self.db.commit()

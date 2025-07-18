@@ -19,8 +19,8 @@ M_EMAIL_UNIQUE = "данное имя уже занято"
 # DOCK
 documentation = "/registration - принимает nickname, unique_name, email, password в body post запроса" \
                 "возвращет ошибку 401 в случае, если email или unique_name уже заняты или " \
-                "перенаправляет на страницу  типа /user/{unique_name}\n" \
+                "возвращет строку типа /user/{unique_name}\n" \
                 "/login - принимает email и password в body post запроса возвращает ошибку 401, в случае, если " \
-                "невреное email или password или пренаправляет на страницу  типа /user/{unique_name}\n" \
+                "невреное email или password или возвращет строку типа типа /user/{unique_name}\n" \
                 "/check-auth - считывает куки и возвращает 403 в случае их отстутсвтия или данные о пользователе в " \
                 "случае успеха "
